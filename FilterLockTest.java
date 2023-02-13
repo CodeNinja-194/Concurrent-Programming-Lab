@@ -1,38 +1,42 @@
 // import java.util.concurrent.locks.*
 
-class FilterLock {
+class FilterLock 
+{
     static int[] level;
     static int[] victim;
     int n;
-
-    public FilterLock(int n) {
+    public FilterLock(int n) 
+    {
         this.n = n;
         level = new int[n];
         victim = new int[n];
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) 
+        {
             level[i] = 0;
         }
     }
-
-    public void lock(int threadId) {
-        for (int i = 1; i < n; i++) {
+    public void lock(int threadId) 
+    {
+        for (int i = 1; i < n; i++) 
+        {
             level[threadId] = i;
             victim[i] = threadId;
-            for (int k = 0; k < n; k++) {
+            for (int k = 0; k < n; k++) 
+            {
                 if (k == threadId)
                     continue;
-                while (level[k] >= i && victim[i] == threadId) {
+                while (level[k] >= i && victim[i] == threadId) 
+                {
                     // busy wait
                 }
             }
         }
     }
-
-    public void unlock(int threadId) {
+    public void unlock(int threadId) 
+    {
         level[threadId] = 0;
     }
 }
-
 public class FilterLockTest {
     public static void main(String[] args) {
         FilterLock lock = new FilterLock(2);
